@@ -15,6 +15,20 @@
   <name>Extensions</name>
   <description>Library of classes that are reused across subcomponents.</description>
 
+  <repositories>
+    <repository>
+      <id>oodt-public</id>
+      <name>OODT M2 Public Repo</name>
+      <url>http://oodt.jpl.nasa.gov/download/public</url>
+      <releases>
+         <enabled>true</enabled>
+      </releases>
+      <snapshots>
+         <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <build>
     <plugins>
       <plugin>
@@ -59,7 +73,7 @@
       <groupId>esgf.org</groupId>
       <artifactId>esg-search</artifactId>
       <version>3.7.2</version>
-    </dependency>    
+    </dependency> 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
