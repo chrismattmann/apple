@@ -79,6 +79,32 @@
       <artifactId>junit</artifactId>
       <version>3.8.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.oodt</groupId>
+      <artifactId>cas-pge</artifactId>
+      <!-- FIXME: replace with ${oodt.version} when latest is working -->
+      <version>0.3</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.oodt</groupId>
+          <artifactId>cas-filemgr</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.oodt</groupId>
+          <artifactId>cas-crawler</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.oodt</groupId>
+          <artifactId>cas-workflow</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
 
 </project>
