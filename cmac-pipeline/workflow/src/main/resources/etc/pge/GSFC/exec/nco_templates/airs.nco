@@ -1,0 +1,56 @@
+*prs_lvl[$TempPrsLvlsU111] = {1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 70, 50, 30, 20, 15, 10, 7, 5, 3, 2, 1.5, 1.0};
+*abslat = abs(LatitudeU271) - 80;
+*cutoff = floor((abslat < 0.) * 20 + (abslat >= 0.) * (14 - abslat));
+
+*landsea = LandSeaMaskU273;
+landsea.set_miss(-1);
+
+// Broadcast prs_lvl1 across lat/lon so dimensions work out for psurf_mask
+*prs_lvl1[$TempPrsLvlsU111, $LatitudeU271, $LongitudeU272] = prs_lvl;
+*psurf_avg = 0.5 * (SurfPres_AU22 + SurfPres_DU138);
+*psurf_mask = int(landsea == 0 || (0.9 * psurf_avg) > prs_lvl1);
+
+*count_mask_A[$TempPrsLvlsU111, $LatitudeU271, $LongitudeU272] = 0;
+*count_mask_A = (Temperature_A_ctU54 >= cutoff);
+count_mask_A.set_miss(-1);
+
+*newfill = 1e20;
+*oldfill = Temperature_AU53@h4__FillValue;
+
+*temperature[$TempPrsLvlsU111, $LatitudeU271, $LongitudeU272] = newfill;
+*temperature_D[$TempPrsLvlsU111, $LatitudeU271, $LongitudeU272] = oldfill;
+temperature.set_miss(newfill);
+
+*count_mask_D[$TempPrsLvlsU111, $LatitudeU271, $LongitudeU272] = 0;
+count_mask_D(:,:,:) = (Temperature_D_ctU170 >= cutoff);
+count_mask_D.set_miss(-1);
+
+temperature_D[$TempPrsLvlsU111, $LatitudeU271, $LongitudeU272] = float(oldfill);
+temperature_D(:,:,:) = float(Temperature_DU169);
+temperature = psurf_mask * count_mask_A * count_mask_D * 0.5 * (Temperature_AU53 + temperature_D);
+where (temperature < 1.0)
+  temperature = newfill;
+temperature.change_miss(newfill);
+defdim("lat", 180);
+defdim("lon", 360);
+defdim("plev", 17);
+ta[$plev, $lat, $lon] = float(newfill);
+ta(0:7,:,0:179) = temperature(0:7,:,180:359);
+ta(0:7,:,180:359) = temperature(0:7,:,0:179);
+ta.set_miss(newfill);
+lat[$lat] = 0.;
+lon[$lon] = 0.;
+plev[$plev] = 0.;
+lat(:) = LatitudeU271;
+plev(0:16) = prs_lvl(0:16) * 100.;
+lon(0:179) = LongitudeU272(180:359);
+lon(180:359) = LongitudeU272(0:179) + 360.;
+ta@coordinates = "plev lat lon";
+ta@standard_name = "air_temperature";
+ta@units = "K";
+ta@long_name = "Air Temperature";
+ta@missing_value = newfill;
+ta@cell_methods = "time: mean";
+ta@cell_measures = "area: areasella";
+ta@original_name = "Temperature_A, Temperature_D";
+#include "plev_attrs.nco"

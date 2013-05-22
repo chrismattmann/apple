@@ -1,0 +1,7 @@
+plev@units = "Pa";
+plev@axis = "Z";
+plev@positive = "down";
+plev@long_name = "pressure";
+plev@standard_name = "air_pressure";
+plev@_CoordinateAxisType = "Pressure";
+plev@_CoordinateZisPositive = "down";

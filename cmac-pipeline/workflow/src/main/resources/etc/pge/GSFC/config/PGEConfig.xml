@@ -3,14 +3,14 @@
 
         <!-- How to run the PGE -->
         <exe dir="[JobDir]" shell="/bin/bash">
-          <cmd>cd [PGE_ROOT]/esg_proc</cmd>
-          <cmd>./esg_proc_airs.pl -h acdisc.gsfc.nasa.gov -r Aqua_AIRS_Level3 -s [PGE_ROOT]/esg_proc/output -t [PGE_ROOT]/esg_proc/nco_templates -m [PGE_ROOT]/esg_proc/AIRX3STM.005.history</cmd>
+          <cmd>cd [PGE_ROOT]/exec</cmd>
+          <cmd>./esg_proc_airs.pl -h acdisc.gsfc.nasa.gov -r Aqua_AIRS_Level3 -s [PGE_ROOT]/exec/output -t [PGE_ROOT]/exec/nco_templates -m [PGE_ROOT]/exec/AIRX3STM.005.history</cmd>
         </exe>
 
             <!-- CAS Crawler directives -->
             <output>
                 <!-- location of products -->
-                <dir path="[PGE_ROOT]/esg_proc/output/Aqua_AIRS_Level3/AIRX3STM.005/2013" createBeforeExe="false">
+                <dir path="[PGE_ROOT]/exec/output/Aqua_AIRS_Level3/AIRX3STM.005/2013" createBeforeExe="false">
 
                 <!-- metadata extractors matching specific files -->
                 <files regExp=".*\.nc" metFileWriterClass="gov.nasa.jpl.cmac.extractors.XmlConfigMetadataExtractor"  

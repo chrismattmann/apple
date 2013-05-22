@@ -1,0 +1,1 @@
+defdim("bnds",2); lat_bnds[$lat,$bnds]=91.; lat_bnds(:,0)=lat-0.5;lat_bnds(:,1)=lat+0.5;lon_bnds[$lon,$bnds]=-1.;lon_bnds(:,0)=lon-0.5;lon_bnds(:,1)=lon+0.5;
