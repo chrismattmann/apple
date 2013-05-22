@@ -17,9 +17,7 @@
 <cas:tasks xmlns:cas="http://oodt.jpl.nasa.gov/1.0/cas">
 
   <!-- Data Extraction task creates the NetCDF/CF files -->
-  <task id="urn:oodt:DataExtraction" 
-     name="DataExtraction"
-     class="org.apache.oodt.cas.pge.StdPGETaskInstance">
+  <task id="urn:oodt:DataProcessing" name="Data Processing" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
 
     <conditions/>
 
@@ -40,5 +38,22 @@
 
   </task>
 
+  <task id="urn:oodt:DataValidation" name="Data Validation" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
+    <conditions/>
+    <configuration />
+    <requiredMetFields />
+  </task>
+  
+  <task id="urn:oodt:DataHarvesting" name="Data Harvesting" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
+    <conditions/>
+    <configuration />
+    <requiredMetFields />
+  </task>
+  
+  <task id="urn:oodt:DataPublishing" name="Data Publishing" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
+    <conditions/>
+    <configuration />
+    <requiredMetFields />
+  </task>
 
 </cas:tasks>
