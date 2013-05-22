@@ -15,7 +15,30 @@
   limitations under the License.
 -->
 <cas:tasks xmlns:cas="http://oodt.jpl.nasa.gov/1.0/cas">
-<!--
-  TODO: Add some examples
--->
+
+  <!-- Data Extraction task creates the NetCDF/CF files -->
+  <task id="urn:oodt:DataExtraction" 
+     name="DataExtraction"
+     class="org.apache.oodt.cas.pge.StdPGETaskInstance">
+
+    <conditions/>
+
+    <configuration>
+      <property name="PGETask_Name" value="DataExtraction"/>
+      <property name="PGETask_ConfigFilePath" value="[PGE_ROOT]/config/PGEConfig.xml" envReplace="true"/>
+      <property name="PGETask_DumpMetadata" value="true"/>
+      <property name="PCS_WorkflowManagerUrl" value="[WORKFLOW_URL]" envReplace="true" />
+      <property name="PCS_FileManagerUrl"     value="[FILEMGR_URL]" envReplace="true"/>
+      <property name="PCS_MetFileExtension" value="met"/>
+      <property name="PCS_ClientTransferServiceFactory" value="org.apache.oodt.cas.filemgr.datatransfer.LocalDataTransferFactory"/>
+      <property name="PCS_ActionRepoFile" value="file:[CRAWLER_HOME]/policy/crawler-config.xml" envReplace="true"/>
+    </configuration>
+
+    <requiredMetFields>
+      <metfield name="data_node"/>
+    </requiredMetFields>
+
+  </task>
+
+
 </cas:tasks>
