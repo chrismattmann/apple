@@ -17,7 +17,7 @@
 <cas:workflow xmlns:cas="http://oodt.jpl.nasa.gov/1.0/cas" name="esgfWorkflow" id="urn:oodt:esgfWorkflow">
 
 <tasks>
-  <task id="urn:oodt:DataExtraction"/>
+  <task id="urn:oodt:DataProcessing"/>
 </tasks>
 
 </cas:workflow>
