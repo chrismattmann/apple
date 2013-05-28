@@ -89,7 +89,6 @@
       <artifactId>cas-pge</artifactId>
       <!-- FIXME: replace with ${oodt.version} when latest is working -->
       <version>0.3</version>
-      <scope>runtime</scope>
       <exclusions>
         <exclusion>
           <groupId>org.apache.oodt</groupId>
