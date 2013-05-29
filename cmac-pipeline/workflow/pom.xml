@@ -44,6 +44,16 @@
       <version>${project.parent.version}</version>
       <type>jar</type>
       <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.oodt</groupId>
@@ -56,6 +66,11 @@
       <version>3.8.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.14</version>
+	</dependency>
   </dependencies>
 
 </project>
