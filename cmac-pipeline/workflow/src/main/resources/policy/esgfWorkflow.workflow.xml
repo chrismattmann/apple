@@ -18,6 +18,7 @@
 
 <tasks>
   <task id="urn:oodt:DataProcessing"/>
+  <task id="urn:oodt:DataPublishing"/>
 </tasks>
 
 </cas:workflow>

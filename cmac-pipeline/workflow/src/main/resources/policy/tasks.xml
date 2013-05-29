@@ -22,8 +22,8 @@
     <conditions/>
 
     <configuration>
-      <property name="PGETask_Name" value="DataExtraction"/>
-      <property name="PGETask_ConfigFilePath" value="[PGE_ROOT]/config/PGEConfig.xml" envReplace="true"/>
+      <property name="PGETask_Name" value="DataProcessing"/>
+      <property name="PGETask_ConfigFilePath" value="[PGE_ROOT]/config/DataProcessingPGEConfig.xml" envReplace="true"/>
       <property name="PGETask_DumpMetadata" value="true"/>
       <property name="PCS_WorkflowManagerUrl" value="[WORKFLOW_URL]" envReplace="true" />
       <property name="PCS_FileManagerUrl"     value="[FILEMGR_URL]" envReplace="true"/>
@@ -44,15 +44,21 @@
     <requiredMetFields />
   </task>
   
-  <task id="urn:oodt:DataHarvesting" name="Data Harvesting" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
-    <conditions/>
-    <configuration />
-    <requiredMetFields />
-  </task>
-  
+  <!--  Data Publishing task publishes the updated datasets to the ESGF -->
   <task id="urn:oodt:DataPublishing" name="Data Publishing" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
     <conditions/>
-    <configuration />
+
+    <configuration>
+          <property name="PGETask_Name" value="DataPublishing"/>
+          <property name="PGETask_ConfigFilePath" value="[PGE_ROOT]/config/DataPublishingPGEConfig.xml" envReplace="true"/>
+          <property name="PGETask_DumpMetadata" value="true"/>
+          <property name="PCS_WorkflowManagerUrl" value="[WORKFLOW_URL]" envReplace="true" />
+          <property name="PCS_FileManagerUrl"     value="[FILEMGR_URL]" envReplace="true"/>
+          <property name="PCS_MetFileExtension" value="met"/>
+          <property name="PCS_ClientTransferServiceFactory" value="org.apache.oodt.cas.filemgr.datatransfer.LocalDataTransferFactory"/>
+          <property name="PCS_ActionRepoFile" value="file:[CRAWLER_HOME]/policy/crawler-config.xml" envReplace="true"/>
+          </configuration>
+
     <requiredMetFields />
   </task>
 
