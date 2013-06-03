@@ -47,6 +47,7 @@
     <configuration>
       <property name="fileManagerUrl" value="[FILEMGR_URL]" envReplace="true"/>
       <property name="validationCommand" value="python [CMAC_HOME]/bin/checker_client.py" envReplace="true"/>
+      <property name="solrUrl" value="http://localhost:8080/solr" envReplace="true"/>
     </configuration>
    
     <requiredMetFields/>
