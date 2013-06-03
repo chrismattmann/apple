@@ -26,8 +26,10 @@ package gov.nasa.jpl.cmac;
 public class Constants {
 
     public final static String FILE_MANAGER_URL = "fileManagerUrl";
+    public final static String SOLR_URL = "solrUrl";
     public final static String QUERY = "query";
     public final static String PRODUCT_IDS = "productIds";
+    public final static String VALIDATION_COMMAND = "validationCommand";
 
     public Constants() {}
 
