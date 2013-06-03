@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pgeConfig>
+
+        <exe dir="[JobDir]" shell="/bin/bash">
+          <cmd>python [CMAC_HOME]/bin/checker_client.py /Users/cinquini/data/CMOR/atest.nc</cmd>
+        </exe>
+
+        <!-- custom metadata to add to output metadata files -->
+        <customMetadata>
+        </customMetadata>
+
+</pgeConfig>
