@@ -45,7 +45,8 @@
     </conditions>
     
     <configuration>
-      <property name="filemgrUrl" value="[FILEMGR_URL]" envReplace="true"/>
+      <property name="fileManagerUrl" value="[FILEMGR_URL]" envReplace="true"/>
+      <property name="validationCommand" value="python [CMAC_HOME]/bin/checker_client.py" envReplace="true"/>
     </configuration>
    
     <requiredMetFields/>
