@@ -37,12 +37,30 @@
     </requiredMetFields>
 
   </task>
-
-  <task id="urn:oodt:DataValidation" name="Data Validation" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
-    <conditions/>
-    <configuration />
-    <requiredMetFields />
+  
+  <task id="urn:oodt:DataValidation" name="Data Validation" class="gov.nasa.jpl.cmac.tasks.DataValidationTask">
+  
+    <conditions>
+        <condition id="urn:oodt:preValidationCondition" />
+    </conditions>
+    
+    <configuration>
+      <property name="filemgrUrl" value="[FILEMGR_URL]" envReplace="true"/>
+    </configuration>
+   
+    <requiredMetFields/>
+  
   </task>
+  
+<!--   <task id="urn:oodt:DataValidationAsPge" name="Data Validation" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
+    <conditions/>
+    <configuration>
+      <property name="PGETask_Name" value="DataValidation"/>
+      <property name="PGETask_ConfigFilePath" value="[PGE_ROOT]/config/DataValidationPGEConfig.xml" envReplace="true"/>
+      <property name="PCS_WorkflowManagerUrl" value="[WORKFLOW_URL]" envReplace="true" />
+    </configuration>
+    <requiredMetFields />
+  </task> -->
   
   <!--  Data Publishing task publishes the updated datasets to the ESGF -->
   <task id="urn:oodt:DataPublishing" name="Data Publishing" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
