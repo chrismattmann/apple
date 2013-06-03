@@ -15,7 +15,13 @@
   limitations under the License.
 -->
 <cas:conditions xmlns:cas="http://oodt.jpl.nasa.gov/1.0/cas">
-<!--
-  TODO: Add some examples
--->
+
+    <condition id="urn:oodt:preValidationCondition" name="Pre-Validation Condition"
+               class="gov.nasa.jpl.cmac.conditions.FileManagerQueryCondition">
+        <configuration>
+            <property name="fileManagerUrl" value="[FILEMGR_URL]" envReplace="true"/>
+            <property name="query" value="ProductStatus:processed"/>
+        </configuration>
+    </condition>
+
 </cas:conditions>
