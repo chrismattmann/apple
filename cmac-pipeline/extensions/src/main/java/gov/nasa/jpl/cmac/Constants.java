@@ -30,7 +30,15 @@ public class Constants {
     public final static String QUERY = "query";
     public final static String PRODUCT_IDS = "productIds";
     public final static String VALIDATION_COMMAND = "validationCommand";
-
+    public final static String PUBLISHING_COMMAND = "publishingCommand";
+    public final static String RESOLVER_CLASS = "granuleToCollectionResolverClass";
+    public final static String RESOLVER_CONFIG = "granuleToCollectionResolverConfig";
+    
+    public final static String PRODUCT_STATUS = "ProductStatus";
+    public final static String STATUS_PROCESSED = "processed";
+    public final static String STATUS_VALIDATED = "validated";
+    public final static String STATUS_PUBLISHED = "published";
+    
     public Constants() {}
 
 }
