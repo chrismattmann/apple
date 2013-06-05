@@ -42,10 +42,10 @@ public class DataValidationTask implements WorkflowTaskInstance {
         try {
             
             String filemgrUrl = config.getProperty(Constants.FILE_MANAGER_URL);
-            LOG.info("FILEMGR URL="+filemgrUrl);
             XmlRpcFileManagerClient fmclient = new XmlRpcFileManagerClient(new URL(filemgrUrl));
             String validationCommand = config.getProperty(Constants.VALIDATION_COMMAND);
         
+            // loop over products identified by pre-condition
             List<String> prodIds = metadata.getAllMetadata(Constants.PRODUCT_IDS);
             for (String prodId : prodIds) {
             
