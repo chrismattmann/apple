@@ -18,14 +18,12 @@ package gov.nasa.jpl.cmac.tasks;
 
 import gov.nasa.jpl.cmac.Constants;
 import gov.nasa.jpl.cmac.utils.Exec;
+import gov.nasa.jpl.cmac.utils.FileManagerTool;
 import gov.nasa.jpl.cmac.utils.SolrTool;
 
-import java.net.URL;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.oodt.cas.filemgr.structs.Product;
-import org.apache.oodt.cas.filemgr.system.XmlRpcFileManagerClient;
 import org.apache.oodt.cas.metadata.Metadata;
 import org.apache.oodt.cas.workflow.structs.WorkflowTaskConfiguration;
 import org.apache.oodt.cas.workflow.structs.WorkflowTaskInstance;
@@ -41,21 +39,14 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         try {
             
             String filemgrUrl = config.getProperty(Constants.FILE_MANAGER_URL);
-            XmlRpcFileManagerClient fmclient = new XmlRpcFileManagerClient(new URL(filemgrUrl));
         
             // loop over products identified by pre-condition
             List<String> prodIds = metadata.getAllMetadata(Constants.PRODUCT_IDS);
             for (String prodId : prodIds) {
             
                 // 1) retrieve product full path
-                LOG.info("Retrieving product id="+prodId);
-                Product prod = fmclient.getProductById(prodId);
-                Metadata met = fmclient.getMetadata(prod);
-                String fileLocation = met.getMetadata("FileLocation");
-                String fileName = met.getMetadata("Filename");
-                String filePath = fileLocation+"/"+fileName;
-                LOG.info("File path="+filePath);
-                
+                String filePath = FileManagerTool.getFilePath(filemgrUrl, prodId);
+                                
                 // 2) resolve files to enclosing datasets (aka granules to collections)
                 String resolverClass = config.getProperty(Constants.RESOLVER_CLASS);
                 GranuleToCollectionResolver resolver = (GranuleToCollectionResolver)Class.forName(resolverClass).newInstance();

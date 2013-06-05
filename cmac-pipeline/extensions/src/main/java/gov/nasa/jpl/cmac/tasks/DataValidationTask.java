@@ -17,16 +17,12 @@
 package gov.nasa.jpl.cmac.tasks;
 
 import gov.nasa.jpl.cmac.Constants;
+import gov.nasa.jpl.cmac.utils.FileManagerTool;
+import gov.nasa.jpl.cmac.utils.SolrTool;
 
-import java.net.URL;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.oodt.cas.filemgr.catalog.solr.DefaultProductSerializer;
-import org.apache.oodt.cas.filemgr.catalog.solr.ProductSerializer;
-import org.apache.oodt.cas.filemgr.catalog.solr.SolrClient;
-import org.apache.oodt.cas.filemgr.structs.Product;
-import org.apache.oodt.cas.filemgr.system.XmlRpcFileManagerClient;
 import org.apache.oodt.cas.metadata.Metadata;
 import org.apache.oodt.cas.workflow.structs.WorkflowTaskConfiguration;
 import org.apache.oodt.cas.workflow.structs.WorkflowTaskInstance;
@@ -41,41 +37,24 @@ public class DataValidationTask implements WorkflowTaskInstance {
         
         try {
             
+            // configuration parameters
             String filemgrUrl = config.getProperty(Constants.FILE_MANAGER_URL);
-            XmlRpcFileManagerClient fmclient = new XmlRpcFileManagerClient(new URL(filemgrUrl));
             String validationCommand = config.getProperty(Constants.VALIDATION_COMMAND);
+            String solrUrl = config.getProperty(Constants.SOLR_URL);
         
             // loop over products identified by pre-condition
             List<String> prodIds = metadata.getAllMetadata(Constants.PRODUCT_IDS);
             for (String prodId : prodIds) {
             
                 // 1) retrieve product full path
-                LOG.info("Retrieving product id="+prodId);
-                Product prod = fmclient.getProductById(prodId);
-                Metadata met = fmclient.getMetadata(prod);
-                String fileLocation = met.getMetadata("FileLocation");
-                String fileName = met.getMetadata("Filename");
-                String filePath = fileLocation+"/"+fileName;
-                LOG.info("File path="+filePath);
-                
+                String filePath = FileManagerTool.getFilePath(filemgrUrl, prodId);
+                 
                 // 2) execute validation
                 String command = validationCommand + " " + filePath;
                 LOG.info("Executing command: "+command);
                                 
-                // 3) update catalog
-                ProductSerializer ps = new DefaultProductSerializer();
-                String solrUrl = config.getProperty(Constants.SOLR_URL);
-                SolrClient solrClient = new SolrClient(solrUrl);
-                
-                Metadata newMet = new Metadata();
-                newMet.addMetadata("ProductStatus","validated");
-                
-                // serialize updated metadata to Solr document(s)
-                // replace=true to override the previous metadata value
-                List<String> docs = ps.serialize(prodId, newMet, true); 
-                          
-                // send documents to Solr server
-                solrClient.index(docs, true, ps.getMimeType());
+                // 3) update product status in FM catalog
+                SolrTool.update(solrUrl, prodId, Constants.PRODUCT_STATUS, Constants.STATUS_VALIDATED);
                 
             }
         
