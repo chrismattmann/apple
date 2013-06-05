@@ -23,5 +23,13 @@
             <property name="query" value="ProductStatus:processed"/>
         </configuration>
     </condition>
+    
+    <condition id="urn:oodt:prePublishingCondition" name="Pre-Publishing Condition"
+               class="gov.nasa.jpl.cmac.conditions.FileManagerQueryCondition">
+        <configuration>
+            <property name="fileManagerUrl" value="[FILEMGR_URL]" envReplace="true"/>
+            <property name="query" value="ProductStatus:validated"/>
+        </configuration>
+    </condition>
 
 </cas:conditions>
