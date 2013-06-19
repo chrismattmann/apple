@@ -30,6 +30,7 @@
       <property name="PCS_MetFileExtension" value="met"/>
       <property name="PCS_ClientTransferServiceFactory" value="org.apache.oodt.cas.filemgr.datatransfer.LocalDataTransferFactory"/>
       <property name="PCS_ActionRepoFile" value="file:[CRAWLER_HOME]/policy/crawler-config.xml" envReplace="true"/>
+      <property name="PCS_ActionsIds" value="Unique"/>
     </configuration>
 
     <requiredMetFields>
