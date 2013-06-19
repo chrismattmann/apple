@@ -38,9 +38,8 @@ public class XmlConfigMetadataExtractor extends PcsMetFileWriter {
     protected Metadata getSciPgeSpecificMetadata(File sciPgeCreatedDataFile,
                     Metadata inputMetadata, Object... customArgs) throws Exception {
 
-        // transfer current metadata
+        // empty metadata container
         Metadata met = new Metadata();
-        met.addMetadata(inputMetadata);
 
         // add metadata from configuration file
         String metConfFilePath = String.valueOf(customArgs[0]);
