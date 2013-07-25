@@ -60,7 +60,7 @@ Fan Fang, Adnet Systems, Inc.
 =cut
 
 ################################################################################
-# $Id: esg_proc_airs.pl,v 1.3 2013/05/04 03:44:01 ffang Exp $
+# $Id: esg_proc_airs.pl,v 1.4 2013/07/24 15:03:13 ffang Exp $
 # -@@@@@@ OGC, Version $Name:  $
 ################################################################################
 
@@ -242,10 +242,9 @@ sub writeNC {
     my ($outFile, $dataFile) = @_;
     my @delete;
     # NCO fetch/subset data
-    my $dataNc = $dataFile . ".nc?TempPrsLvlsU111,LandSeaMaskU273,SurfPres_AU22,SurfPres_DU138,Temperature_A_ctU54,Temperature_AU53,Temperature_DU169,Temperature_D_ctU170,LatitudeU271,LongitudeU272";
+    my $dataNc = $dataFile . ".nc?TempPrsLvls,LandSeaMask,SurfPres_A,SurfPres_D,Temperature_A_ct,Temperature_A,Temperature_D,Temperature_D_ct,Latitude,Longitude";
     my $fetchData = "fetch_ncks.nc";
     push @delete, $fetchData;
-#    `ncks -O -v LandSeaMaskU273,SurfPres_AU22,SurfPres_DU138,Temperature_A_ctU54,Temperature_AU53,Temperature_DU169,Temperature_D_ctU170 $dataFile $fetchData`;
     `curl -s $dataNc > $fetchData`;
     if($?) {
         print "Error fetching data $dataFile ($?)\n";
