@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tomcat-users>
+  <role rolename="tdsConfig"/>
+  <role rolename="tomcat"/>
+  <user username="cmac" password="536ced53c2c43c0a8b9e96393eb69962af4dd6e6" roles="tomcat,tdsConfig"/>
+</tomcat-users>
