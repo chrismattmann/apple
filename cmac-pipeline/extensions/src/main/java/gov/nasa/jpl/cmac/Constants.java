@@ -33,6 +33,9 @@ public class Constants {
     public final static String PUBLISHING_COMMAND = "publishingCommand";
     public final static String RESOLVER_CLASS = "granuleToCollectionResolverClass";
     public final static String RESOLVER_CONFIG = "granuleToCollectionResolverConfig";
+    public final static String USERNAME = "username";
+    public final static String PASSWORD = "password";
+    public final static String COMMAND = "command";
     
     public final static String PRODUCT_STATUS = "ProductStatus";
     public final static String STATUS_PROCESSED = "processed";

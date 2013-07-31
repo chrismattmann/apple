@@ -42,40 +42,42 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         
             // loop over products identified by pre-condition
             List<String> prodIds = metadata.getAllMetadata(Constants.PRODUCT_IDS);
-            for (String prodId : prodIds) {
-            
-                // 1) retrieve product full path
-                String filePath = FileManagerTool.getFilePath(filemgrUrl, prodId);
-                                
-                // 2) resolve files to enclosing datasets (aka granules to collections)
-                String resolverClass = config.getProperty(Constants.RESOLVER_CLASS);
-                GranuleToCollectionResolver resolver = (GranuleToCollectionResolver)Class.forName(resolverClass).newInstance();
-                String recolverConfig = config.getProperty(Constants.RESOLVER_CONFIG);
-                resolver.init(recolverConfig);
-                List<String> uris = resolver.resolve(prodId, filePath);
+            if (prodIds!=null) {
+                for (String prodId : prodIds) {
                 
-                // 3) publish all URIs that resolved from product
-                for (String tuple : uris) {
-                    String[] parts = tuple.split("\\|");
-                    String url = parts[0];
-                    String type = parts[1];
+                    // 1) retrieve product full path
+                    String filePath = FileManagerTool.getFilePath(filemgrUrl, prodId);
+                                    
+                    // 2) resolve files to enclosing datasets (aka granules to collections)
+                    String resolverClass = config.getProperty(Constants.RESOLVER_CLASS);
+                    GranuleToCollectionResolver resolver = (GranuleToCollectionResolver)Class.forName(resolverClass).newInstance();
+                    String recolverConfig = config.getProperty(Constants.RESOLVER_CONFIG);
+                    resolver.init(recolverConfig);
+                    List<String> uris = resolver.resolve(prodId, filePath);
                     
-                    String command = config.getProperty(Constants.PUBLISHING_COMMAND);
-                    command = command.replaceAll("CERTIFICATE", config.getProperty("certificate"));
-                    command = command.replaceAll("INDEX_NODE", config.getProperty("indexNode"));
-                    command = command.replaceAll("COLLECTION_URL", url);
-                    command = command.replaceAll("URL_TYPE", type);
-                    int exitStatus = Exec.runSync(command);
-                    
-                    if (exitStatus==0) { // success
-                    
-                        // 4) update product status in FM catalog
-                        SolrTool.update(config.getProperty(Constants.SOLR_URL), prodId, Constants.PRODUCT_STATUS, Constants.STATUS_PUBLISHED);
-                     
+                    // 3) publish all URIs that resolved from product
+                    for (String tuple : uris) {
+                        String[] parts = tuple.split("\\|");
+                        String url = parts[0];
+                        String type = parts[1];
+                        
+                        String command = config.getProperty(Constants.PUBLISHING_COMMAND);
+                        command = command.replaceAll("CERTIFICATE", config.getProperty("certificate"));
+                        command = command.replaceAll("INDEX_NODE", config.getProperty("indexNode"));
+                        command = command.replaceAll("COLLECTION_URL", url);
+                        command = command.replaceAll("URL_TYPE", type);
+                        int exitStatus = Exec.runSync(command);
+                        
+                        if (exitStatus==0) { // success
+                        
+                            // 4) update product status in FM catalog
+                            SolrTool.update(config.getProperty(Constants.SOLR_URL), prodId, Constants.PRODUCT_STATUS, Constants.STATUS_PUBLISHED);
+                         
+                        }
+                        
                     }
                     
                 }
-                
             }
         
         } catch(Exception e) {
