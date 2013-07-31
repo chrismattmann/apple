@@ -69,6 +69,9 @@
   <task id="urn:oodt:DataPublishing" name="Data Publishing" class="gov.nasa.jpl.cmac.tasks.DataPublishingTask">
   
     <conditions>
+        <condition id="urn:oodt:tdsReinitCondition" />
+    </conditions>
+    <conditions>
         <condition id="urn:oodt:prePublishingCondition" />
     </conditions>
     

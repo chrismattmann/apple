@@ -16,6 +16,15 @@
 -->
 <cas:conditions xmlns:cas="http://oodt.jpl.nasa.gov/1.0/cas">
 
+    <condition id="urn:oodt:tdsReinitCondition" name="TDS Re-initialization Condition"
+               class="gov.nasa.jpl.cmac.conditions.SystemCommandCondition">
+        <configuration>
+            <property name="command" 
+                      value="wget --http-user=[TDS_USERNAME] --http-password=[TDS_PASSWORD] --no-check-certificate [TDS_HTTPS_URL]/admin/debug?catalogs/reinit" 
+                      envReplace="true"/>
+        </configuration>
+    </condition>
+    
     <condition id="urn:oodt:preValidationCondition" name="Pre-Validation Condition"
                class="gov.nasa.jpl.cmac.conditions.FileManagerQueryCondition">
         <configuration>
