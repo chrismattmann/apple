@@ -38,34 +38,23 @@
     </requiredMetFields>
 
   </task>
-  
+
   <task id="urn:oodt:DataValidation" name="Data Validation" class="gov.nasa.jpl.cmac.tasks.DataValidationTask">
-  
+
     <conditions>
         <condition id="urn:oodt:preValidationCondition" />
     </conditions>
-    
+
     <configuration>
       <property name="fileManagerUrl" value="[FILEMGR_URL]" envReplace="true"/>
       <property name="validationCommand" value="python [CMAC_HOME]/bin/checker_client.py" envReplace="true"/>
       <property name="solrUrl" value="http://localhost:8080/solr" envReplace="true"/>
     </configuration>
-   
+
     <requiredMetFields/>
-  
   </task>
+
   
-<!--   <task id="urn:oodt:DataValidationAsPge" name="Data Validation" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
-    <conditions/>
-    <configuration>
-      <property name="PGETask_Name" value="DataValidation"/>
-      <property name="PGETask_ConfigFilePath" value="[PGE_ROOT]/config/DataValidationPGEConfig.xml" envReplace="true"/>
-      <property name="PCS_WorkflowManagerUrl" value="[WORKFLOW_URL]" envReplace="true" />
-    </configuration>
-    <requiredMetFields />
-  </task> -->
-  
-  <!--  Data Publishing task publishes the updated datasets to the ESGF -->
   <task id="urn:oodt:DataPublishing" name="Data Publishing" class="gov.nasa.jpl.cmac.tasks.DataPublishingTask">
   
     <conditions>
@@ -79,30 +68,18 @@
       <property name="fileManagerUrl" value="[FILEMGR_URL]" envReplace="true"/>
       <property name="solrUrl" value="http://localhost:8080/solr" envReplace="true"/>
       
-      <property name="certificate" value="[HOME]/.esg/credentials.pem" envReplace="true"/>
       <property name="indexNode" value="[INDEX_NODE]" envReplace="true"/>
-      <property name="granuleToCollectionResolverClass" value="gov.nasa.jpl.cmac.tasks.PropertiesGranuleToCollectionResolver"/> 
-      <property name="granuleToCollectionResolverConfig" value="[PGE_ROOT]/config/granuleToCollectionResolver.properties" envReplace="true"/> 
- 	  <property name="publishingCommand" value="wget --no-check-certificate --certificate CERTIFICATE --private-key CERTIFICATE --verbose --post-data=uri=COLLECTION_URL&amp;metadataRepositoryType=URL_TYPE http://INDEX_NODE/esg-search/ws/harvest/" envReplace="true"/>
+      <property name="fileToDatasetResolverClass" value="gov.nasa.jpl.cmac.tasks.PropertiesFileToDatasetResolver"/> 
+      <property name="fileToDatasetResolverConfig" value="[PGE_ROOT]/config/fileToDatasetResolver.properties" envReplace="true"/> 
+
+      <property name="publishingCommand" 
+                value="curl --insecure --key [HOME]/.esg/credentials.pem --cert [HOME]/.esg/credentials.pem --verbose -X POST -d @XMLFILE  --header 'Content-Type:application/xml' https://[INDEX_NODE]/esg-search/ws/publish" envReplace="true"/>
+      <property name="templateDir" value="[PGE_ROOT]/config/" envReplace="true"/>
+      <property name="recordsDir" value="[PGE_ROOT]/output/records/" envReplace="true"/>
     </configuration>
    
     <requiredMetFields/>
   
   </task>
-
-  <!-- <task id="urn:oodt:DataPublishing" name="Data Publishing" class="org.apache.oodt.cas.pge.StdPGETaskInstance">
-    <conditions/>
-    <configuration>
-          <property name="PGETask_Name" value="DataPublishing"/>
-          <property name="PGETask_ConfigFilePath" value="[PGE_ROOT]/config/DataPublishingPGEConfig.xml" envReplace="true"/>
-          <property name="PGETask_DumpMetadata" value="true"/>
-          <property name="PCS_WorkflowManagerUrl" value="[WORKFLOW_URL]" envReplace="true" />
-          <property name="PCS_FileManagerUrl"     value="[FILEMGR_URL]" envReplace="true"/>
-          <property name="PCS_MetFileExtension" value="met"/>
-          <property name="PCS_ClientTransferServiceFactory" value="org.apache.oodt.cas.filemgr.datatransfer.LocalDataTransferFactory"/>
-          <property name="PCS_ActionRepoFile" value="file:[CRAWLER_HOME]/policy/crawler-config.xml" envReplace="true"/>
-    </configuration>
-    <requiredMetFields />
-  </task> -->
 
 </cas:tasks>
