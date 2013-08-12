@@ -1,0 +1,51 @@
+<doc schema="cmip5">
+
+    <!-- ESGF core metadata fields -->
+    <field name="id">$id$</field>
+    <field name="dataset_id">$dataset_id$</field>
+    <field name="master_id">$master_id$</field>
+    <field name="instance_id">$instance_id$</field>
+    <field name="replica">false</field>
+    <field name="latest">true</field>
+    <field name="version">1</field>
+    <field name="timestamp">$timestamp$</field>
+    <field name="type">File</field>
+    <field name="data_node">$data_node$</field>
+    <field name="index_node">[INDEX_NODE]</field>
+
+    <field name="title">$title$</field>
+    <field name="description">$description$</field>
+
+    <!-- ESGF search fields -->
+    <field name="project">$project$</field>
+    <field name="institute">$institute$</field>
+    <field name="model">$model$</field>
+    <field name="instrument">$instrument$</field>
+    <field name="experiment">obs</field>
+    <field name="experiment_family">All</field>
+    <field name="time_frequency">$time_frequency$</field>
+    <field name="product">observations</field>
+    <field name="realm">atmos</field>
+    <field name="variable">$variable$</field>
+    <field name="variable_long_name">$variable_long_name$</field>
+    <field name="cmor_table">$cmor_table$</field>
+    <field name="cf_standard_name">$cf_standard_name$</field>
+    <field name="variable_units">$variable_units$</field>
+
+    <!-- other Obs4MIPs fields -->
+    <field name="source_id">$source_id$</field>
+    <field name="processing_level">$processing_level$</field>
+    
+    <!-- File access fields -->
+    <field name="url">http://[DATA_NODE]/thredds/fileServer/$filepath$|application/netcdf|HTTPServer</field>
+    <field name="url">http://[DATA_NODE]/thredds/dodsc/$filepath$|application/opendap-html|OPENDAP</field>
+    <field name="xlink">http://[DATA_NODE]/thredds/fileServer/$filepath$|Technical Note|summary</field>
+
+    <!-- other File fields -->
+    <field name="size">$FileSize$</field>
+    <field name="tracking_id">744e3cad-f23c-4054-98e3-a9f9b9a37610</field>
+    <field name="checksum">$checksum$</field>
+    <field name="checksum_type">MD5</field>
+
+    <field name="metadata_format">THREDDS</field>
+</doc>
