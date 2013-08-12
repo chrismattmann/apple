@@ -55,7 +55,7 @@ public class Exec {
         BufferedReader ibr = new BufferedReader(isr);
         String iline;
         while ((iline = ibr.readLine()) != null) {
-           LOG.log(Level.FINE, iline);
+           LOG.log(Level.INFO, iline);
         }
         
         // wait for the command to complete

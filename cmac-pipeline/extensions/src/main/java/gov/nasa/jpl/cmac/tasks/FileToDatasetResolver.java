@@ -16,26 +16,22 @@
  */
 package gov.nasa.jpl.cmac.tasks;
 
-import java.util.List;
 
 /**
- * Interface that resolve single granule products
- * into containing collections that need to be published.
+ * Interface that resolves a single File into the enclosing Dataset.
  * 
  * @author Luca Cinquini
  *
  */
-public interface GranuleToCollectionResolver {
+public interface FileToDatasetResolver {
     
     /**
-     * Resolves a granule into one or more collection URIs to be published.
+     * Resolves a File into the enclosing Dataset.
      * 
-     * @param productId : the granule product identifier
-     * @param filePath : the granule location path
-     * @return : list of collections to be published encoded as "URI|type"
-     *           example: "http://airsl2.ecs.nasa.gov/thredds/dodsC/TA_AIRX3STM_ESG_timeSeries.nc|OPENDAP"
+     * @param fileId : the File product identifier
+     * @return : a skeleton enclosing Dataset
      */
-    List<String> resolve(String productId, String filePath);
+    Dataset resolve(String fileId);
     
     /**
      * Method to initialize the resolver from a configuration file.

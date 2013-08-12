@@ -17,36 +17,34 @@
 package gov.nasa.jpl.cmac.tasks;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
- * Implementation of {@link GranuleToCollectionResolver} that is configured from a property file
- * containing granule matching regular expressions.
+ * Implementation of {@link FileToDatasetResolver} that is configured from a properties file
+ * containing file-matching regular expressions.
  * 
  * @author Luca Cinquini
  *
  */
-public class PropertiesGranuleToCollectionResolver implements GranuleToCollectionResolver {
+public class PropertiesFileToDatasetResolver implements FileToDatasetResolver {
     
-    // for each pattern, stores all the collection URIs to be published (and their type)
-    Map<Pattern, String[]> patterns = new HashMap<Pattern, String[]>();
+    // for each pattern, stores the matching Dataset
+    Map<Pattern, Dataset> patterns = new HashMap<Pattern, Dataset>();
     
-    private static final Logger LOG = Logger.getLogger(PropertiesGranuleToCollectionResolver.class.getName());
+    private static final Logger LOG = Logger.getLogger(PropertiesFileToDatasetResolver.class.getName());
     
-    public PropertiesGranuleToCollectionResolver() {}
+    public PropertiesFileToDatasetResolver() {}
     
     /**
      * Initializes the object from a configuration properties file.
      */
     public void init(String propertiesFilePath) throws Exception {
         
-        LOG.info("Initializing from file: "+propertiesFilePath);
+        LOG.info("Initializing FileToDatasetResolver from file: "+propertiesFilePath);
         
         // load properties
         Properties properties = new Properties();
@@ -55,32 +53,29 @@ public class PropertiesGranuleToCollectionResolver implements GranuleToCollectio
         // compile map of regular expressions
         for (String key : properties.stringPropertyNames()) {
             String value = properties.getProperty(key);
-            String[] values = value.replaceAll("\\s+", "").split(",");
-            patterns.put(Pattern.compile(key), values);
+            String[] parts = value.split("\\|\\|");
+            if (parts.length!=3) throw new Exception("Invalid property key="+key+" value="+value);
+            patterns.put(Pattern.compile(key), new Dataset(parts[0], parts[1], parts[2]));
           }
         
     }
     
 
     /**
-     * This implementation matches the product filepath 
-     * to one or more regex contained in the configuration properties file. 
-     * All matches are returned.
+     * This implementation matches the file identifier 
+     * to the first matching regex contained in the configuration properties file. 
      */
-    public List<String> resolve(String productId, String filePath) {
-        
-        List<String> collections = new ArrayList<String>();
-        
+    public Dataset resolve(String fileId) {
+                
         // loop over configured regex patterns
         for (Pattern pattern : patterns.keySet()) {
-            if (pattern.matcher(filePath).matches()) {
-                for (String uri : patterns.get(pattern)) {
-                    collections.add(uri);
-                }
+            if (pattern.matcher(fileId).matches()) {
+                return patterns.get(pattern);
             }
         }
         
-        return collections;
+        // match not found
+        return null;
     }
 
 }
