@@ -1,0 +1,58 @@
+<doc schema="cmip5">
+
+    <!-- ESGF core metadata fields -->
+    <field name="id">$id$</field>
+    <field name="master_id">$master_id$</field>
+    <field name="instance_id">$instance_id$</field>
+    <field name="replica">false</field>
+    <field name="latest">true</field>
+    <field name="version">1</field>
+    <field name="timestamp">$timestamp$</field>
+    <field name="type">Dataset</field>
+    <field name="data_node">$data_node$</field>
+    <field name="index_node">[INDEX_NODE]</field>
+
+    <field name="title">$title$</field>
+    <field name="description">$description$</field>
+
+    <!-- ESGF search fields -->
+    <field name="project">$project$</field>
+    <field name="institute">$institute$</field>
+    <field name="model">$model$</field>
+    <field name="instrument">$instrument$</field>
+    <field name="experiment">obs</field>
+    <field name="experiment_family">All</field>
+    <field name="time_frequency">$time_frequency$</field>
+    <field name="product">observations</field>
+    <field name="realm">atmos</field>
+    <field name="variable">$variable$</field>
+    <field name="variable_long_name">$variable_long_name$</field>
+    <field name="cmor_table">$cmor_table$</field>
+    <field name="cf_standard_name">$cf_standard_name$</field>
+    <field name="variable_units">$variable_units$</field>
+
+    <!-- space/time coverage -->
+    <field name="datetime_start">2002-09-16T00:00:00Z</field>
+    <field name="datetime_stop">2011-05-16T12:00:00Z</field>
+    <field name="east_degrees">359.5</field>
+    <field name="north_degrees">89.5</field>
+    <field name="south_degrees">-89.5</field>
+    <field name="west_degrees">0.5</field>
+    <field name="height_bottom">100000.0</field>
+    <field name="height_top">1000.0</field>
+    <field name="height_units">Pa</field>
+
+    <!-- other Obs4MIPs fields -->
+    <field name="source_id">$source_id$</field>
+    <field name="processing_level">$processing_level$</field>
+    
+    <!-- Technical Note -->
+    <field name="xlink">http://[DATA_NODE]/thredds/fileServer/$filepath$|Technical Note|summary</field>
+
+    <!-- other Dataset fields -->
+    <field name="number_of_aggregations">0</field>
+    <field name="number_of_files">0</field>
+    <field name="size">0</field>
+
+    <field name="metadata_format">THREDDS</field>
+</doc>
