@@ -119,6 +119,21 @@
         </exclusion>
       </exclusions>
     </dependency>
+	<dependency>
+		<groupId>edu.ucar</groupId>
+		<artifactId>netcdf</artifactId>
+		<version>4.2-min</version>
+	</dependency>
+	    <dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>1.7.5</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-simple</artifactId>
+		<version>1.7.5</version>
+	</dependency>
   </dependencies>
 
 </project>
