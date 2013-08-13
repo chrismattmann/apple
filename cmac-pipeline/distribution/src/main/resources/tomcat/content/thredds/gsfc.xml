@@ -13,7 +13,7 @@
   </service>
 
     <datasetScan name="Airs Data" ID="gsfc.airs"
-                   path="ncpp" location="/usr/local/cmac/data/archive">
+                   path="cmac" location="file:/usr/local/cmac/data/archive">
           <serviceName>all</serviceName>
           <filter>
               <exclude wildcard=".*" />
