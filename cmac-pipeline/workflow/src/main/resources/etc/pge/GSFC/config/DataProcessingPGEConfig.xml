@@ -15,6 +15,7 @@
                 <!-- metadata extractors matching specific files -->
                 <files regExp=".*\.nc" metFileWriterClass="gov.nasa.jpl.cmac.extractors.XmlConfigMetadataExtractor"  
                        args="[PGE_ROOT]/config/commonMetadata.xml"/>
+                <files regExp=".*\.nc" metFileWriterClass="gov.nasa.jpl.cmac.extractors.NetcdfMetadataExtractor"/>
             </dir>
         </output>
 
