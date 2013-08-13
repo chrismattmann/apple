@@ -40,6 +40,8 @@ public class Constants {
     public final static String PASSWORD = "password";
     public final static String TEMPLATE_DIR = "templateDir";
     public final static String RECORDS_DIR = "recordsDir";    
+    public final static String TDS_PATH = "tdsPath"; // prefix to all TDS relative paths
+    public final static String TDS_LOCATION = "tdsLocation"; // location of TDS root directory
     
     public final static String PRODUCT_STATUS = "ProductStatus";
     public final static String STATUS_PROCESSED = "processed";

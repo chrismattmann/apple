@@ -1,3 +1,19 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package gov.nasa.jpl.cmac.tasks;
 
 import gov.nasa.jpl.cmac.Constants;
@@ -59,14 +75,14 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         
         Format format = Format.getPrettyFormat();
         format.setLineSeparator(System.getProperty("line.separator"));
-        // must omit the header line <xml....>  which causes problems when ingesting records into Solr
+        // must omit the header line <xml....>  which causes problems when inserting records into Solr
         format.setOmitDeclaration(true); 
         outputter = new org.jdom.output.XMLOutputter(format);
 
     }
     
     /**
-     * Main program provided to execute invocation outside of workflow manager.
+     * Main program provided to execute invocation outside of workflow manager for debugging purposes.
      * @param args
      * @throws Exception
      */
@@ -89,6 +105,8 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         config.addConfigProperty(Constants.PUBLISHING_COMMAND, publishingCommand);
         config.addConfigProperty(Constants.TEMPLATE_DIR,"/usr/local/pge/GSFC/config/");
         config.addConfigProperty(Constants.RECORDS_DIR,"/usr/local/pge/GSFC/output/records/");
+        config.addConfigProperty(Constants.TDS_PATH,"cmac");
+        config.addConfigProperty(Constants.TDS_LOCATION,"/usr/local/cmac/data/archive");
         task.run(metadata, config);
         
     }
@@ -98,13 +116,11 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         
         // read configuration parameters
         String solrUrl = config.getProperty(Constants.SOLR_URL);
-        String command = config.getProperty(Constants.PUBLISHING_COMMAND);
         String templateDir = config.getProperty(Constants.TEMPLATE_DIR);
         String recordsDir = config.getProperty(Constants.RECORDS_DIR);
 
         try {
-            
-            
+                
             // resolve files to enclosing dataset (aka granules to collection)
             String resolverClass = config.getProperty(Constants.RESOLVER_CLASS);
             FileToDatasetResolver resolver = (FileToDatasetResolver)Class.forName(resolverClass).newInstance();
@@ -135,13 +151,13 @@ public class DataPublishingTask implements WorkflowTaskInstance {
                     Metadata fileMetadata = this.makeFileMetadata(fileId, dataset.getId(), cp);
                                         
                     // generate file record from template, publish
-                    this.publishRecord(fileDocumentTemplate, fileMetadata, new File(recordsDir, fileId+".xml"), command);
+                    this.publishRecord(fileDocumentTemplate, fileMetadata, config, new File(recordsDir, fileId+".xml"));
                     
                     // dataset-level metadata
                     Metadata datasetMetadata = this.makeDatasetMetadata(dataset, fileMetadata);
 
                     // generate dataset record from template, publish
-                    this.publishRecord(datasetDocumentTemplate, datasetMetadata, new File(recordsDir, dataset.getId()+".xml"), command);                    
+                    this.publishRecord(datasetDocumentTemplate, datasetMetadata, config, new File(recordsDir, dataset.getId()+".xml"));                    
                                   
                 } // loop over products
                 
@@ -170,9 +186,9 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         fileMetadata.addMetadata("instance_id", fileId);
         fileMetadata.addMetadata("title", cp.getProduct().getProductName());
         fileMetadata.addMetadata("description", cp.getProduct().getProductName());
-        // add timestamp (since CAS.ProductReceivedTime ois not exposed)
+        // add timestamp (since CAS.ProductReceivedTime is not exposed)
         fileMetadata.addMetadata("timestamp", Constants.SOLR_DATE_TIME_FORMATTER.format(new Date()));
-        
+                
         return fileMetadata;
 
     }
@@ -198,17 +214,34 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         datasetMetadata.replaceMetadata("instance_id", datasetId);
         datasetMetadata.replaceMetadata("title", dataset.getTitle());
         datasetMetadata.replaceMetadata("description", dataset.getDescription());
-        // add timestamp (since CAS.ProductReceivedTime ois not exposed)
+        // add timestamp (since CAS.ProductReceivedTime is not exposed)
         datasetMetadata.replaceMetadata("timestamp", Constants.SOLR_DATE_TIME_FORMATTER.format(new Date()));
         
-        // FIXME: number of files, number of aggregations
+        // FIXME: add number of files, number of aggregations to dataset metadata
         
         return datasetMetadata;
 
     }
     
-    final private void publishRecord(Document template, Metadata metadata, File recordFile, String command) 
+    /**
+     * Method to generate a Dataset/File record from an XML template
+     * and push it to the ESGF Index Node.
+     * 
+     * @param template
+     * @param metadata
+     * @param config
+     * @param recordFile
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws CatalogException
+     */
+    final private void publishRecord(Document template, Metadata metadata, 
+                                     WorkflowTaskConfiguration config, File recordFile) 
                        throws IOException, InterruptedException, CatalogException {
+        
+        String command = config.getProperty(Constants.PUBLISHING_COMMAND);
+        String tdsPath = config.getProperty(Constants.TDS_PATH);
+        String tdsLocation = config.getProperty(Constants.TDS_LOCATION);
         
         // root element
         Element rootElement = template.getRootElement();
@@ -218,18 +251,28 @@ public class DataPublishingTask implements WorkflowTaskInstance {
             _rootElement.setAttribute(new Attribute(att.getName(), att.getValue()));
             
         }
+        
         // child elements
         for (Object obj : rootElement.getChildren()) {
+            
             Element childElement = (Element)obj;
             String value = childElement.getTextNormalize();
             
-            // process element text
+            // process element text: replace place-holders with values
+            // from environment or CAS metadata
             String _value = replaceWithEnvironment(value);
             List<String> _values = replaceWithMetadata(_value, metadata);
             
             // write out processed values
             for (String __value : _values) {
+                
                 Element _childElement = (Element)childElement.clone();
+                
+                // special processing for URLs: must replace "tdsLocation" with "tdsPath"
+                 if (_childElement.getAttributeValue("name").equals("url")) {
+                     __value = __value.replace(tdsLocation, tdsPath);
+                }
+                
                 _childElement.setText(__value);
                 _rootElement.addContent(_childElement);
             }
@@ -244,7 +287,6 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         String _command = command.replace("XMLFILE", recordFile.getAbsolutePath());
         int status = Exec.runSync(_command);
         if (status!=0) throw new CatalogException("Error executing command: "+_command);
-        
         
     }
     
@@ -280,8 +322,8 @@ public class DataPublishingTask implements WorkflowTaskInstance {
     }
     
     /**
-     * Method to replace all occurrences of "[...]" in a string
-     * with corresponding environmental variables.
+     * Method to replace all occurrences of "[...]" in a string with corresponding environmental variables.
+     * Works with multiple "[...]" in the same string.
      * @param value
      * @return
      */
@@ -300,28 +342,66 @@ public class DataPublishingTask implements WorkflowTaskInstance {
     /**
      * Method to replace all occurrences of "$...$" in a string
      * with ALL possible values of that pattern found in the metadata.
+     * Works with multiple "$...$" in the same string. 
+     * May return more then one string if the metadata replacement has multiple values.
      */
-    final private List<String> replaceWithMetadata(final String _value, Metadata metadata) {
+    final private List<String> replaceWithMetadata(String value, Metadata metadata) {
         
-        List<String> _values = new ArrayList<String>();
-        Matcher matcher = PATTERN_METADATA.matcher(_value);
-        while (matcher.find()) {
-            String match = matcher.group(1);
-            String var = match.substring(1,match.length()-1);
-            if (metadata.containsKey(var)) {
-                // replace with all metadata values
-                for (String _val : metadata.getAllMetadata(var)) {
-                    _values.add( _value.replace(match, _val) );
-                }
-            }
+        // initial input list containing only one value
+        List<String> input = new ArrayList<String>();
+        input.add(value);
+        
+        // final list of replaced values, to be populated recursively
+        List<String> output = new ArrayList<String>();
+        
+        // start processing
+        _replaceWithMetadata(input, metadata, output);
+        
+        return output;
+        
+    }
+    
+    /**
+     * Iterative method to replace values with metadata strings.
+     * @param input
+     * @param metadata
+     * @param output
+     */
+    final private void _replaceWithMetadata(List<String> input, Metadata metadata, List<String> output) {
+        
+        // create list of values that have been replaced this iteration
+        List<String> _input = new ArrayList<String>();
+        
+        // loop over values
+        for (String value : input) {
+           boolean replaced = false;
+           Matcher matcher = PATTERN_METADATA.matcher(value);
+           // find all occurrences of the $...$ in the string
+           while (matcher.find()) {
+               String match = matcher.group(1);
+               // remove the enclosing '$...$'
+               String var = match.substring(1,match.length()-1);
+               if (metadata.containsKey(var)) {
+                   for (String val : metadata.getAllMetadata(var)) {
+                       String newvalue = value.replace(match, val);
+                       // add any processed value to next iteration processing list
+                       _input.add( newvalue ); 
+                       replaced = true;
+                   }
+               }
+               // only replace first occurrence - replace others in following iterations
+               break;
+           } 
+           if (!replaced) {
+               // don't process this value any more
+               output.add(value);
+           }
         }
         
-        // no replacements
-        if (_values.size()==0) {
-            _values.add(_value);
+        // recurrence
+        if (_input.size()>0) {
+            _replaceWithMetadata(_input, metadata, output);
         }
-        
-        return _values;
         
     }
 
