@@ -8,33 +8,43 @@
     <field name="replica">false</field>
     <field name="latest">true</field>
     <field name="version">1</field>
-    <field name="timestamp">$timestamp$</field>
+    <field name="timestamp">$creation_date$</field>
     <field name="type">File</field>
     <field name="data_node">$data_node$</field>
     <field name="index_node">[INDEX_NODE]</field>
+     <field name="title">$title$</field>
 
     <field name="title">$title$</field>
     <field name="description">$description$</field>
 
     <!-- ESGF search fields -->
-    <field name="project">$project$</field>
-    <field name="institute">$institute$</field>
-    <field name="model">$model$</field>
+    <field name="project">$project_id$</field>
+    <field name="institute">$institute_id$</field>
+    <field name="institution">$institution$</field>
+    <field name="model">$model_id$</field>
     <field name="instrument">$instrument$</field>
-    <field name="experiment">obs</field>
+    <field name="experiment">$experiment_id$</field>
     <field name="experiment_family">All</field>
-    <field name="time_frequency">$time_frequency$</field>
+    <field name="time_frequency">$frequency$</field>
     <field name="product">observations</field>
-    <field name="realm">atmos</field>
+    <field name="realm">$realm$</field>
     <field name="variable">$variable$</field>
     <field name="variable_long_name">$variable_long_name$</field>
     <field name="cmor_table">$cmor_table$</field>
     <field name="cf_standard_name">$cf_standard_name$</field>
     <field name="variable_units">$variable_units$</field>
+    <field name="mip_specs">$mip_specs$</field>
+    <field name="product">$product$</field>
+    <field name="table_id">$table_id$</field>
 
     <!-- other Obs4MIPs fields -->
+    <field name="source">$source$</field>
     <field name="source_id">$source_id$</field>
+    <field name="source_type">$source_type$</field>
     <field name="processing_level">$processing_level$</field>
+    <field name="processing_version">$processing_version$</field>
+    <field name="data_structure">$data_structure$</field>
+    <field name="obs_project">$obs_project$</field>
     
     <!-- File access fields -->
     <field name="url">http://[DATA_NODE]/thredds/fileServer/$FileLocation$/$Filename$|application/netcdf|HTTPServer</field>
@@ -43,7 +53,7 @@
 
     <!-- other File fields -->
     <field name="size">$FileSize$</field>
-    <field name="tracking_id">744e3cad-f23c-4054-98e3-a9f9b9a37610</field>
+    <field name="tracking_id">$tracking_id$</field>
     <field name="checksum">$checksum$</field>
     <field name="checksum_type">MD5</field>
 

@@ -1,26 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <input>
-
-    
+<input>
     <group name="CommonMetadata">
-
         <scalar name="ProductType">GenericFile</scalar>
         <scalar name="DataVersion">1</scalar>
         <scalar name="ProductStatus">processed</scalar>
-
-        <scalar name="instrument">AIRS</scalar>
-        <scalar name="institute">NASA/GSFC</scalar>
-        <scalar name="project">Obs4MIPs</scalar>
-        <scalar name="cf_standard_name">air_temperature_number_of_observations</scalar>
-        <scalar name="checksum">34734569b60743c253a5f6d771e33e9d</scalar>
-        <scalar name="cmor_table">Amon</scalar>
-        <scalar name="experiment">obs</scalar>
-        <scalar name="experiment_family">All</scalar>
-        <scalar name="model">Obs-AIRS</scalar>
-        <scalar name="processing_level">L3</scalar>
-        <scalar name="source_id">AIRS</scalar>
-        <scalar name="time_frequency">mon</scalar>
-
     </group>
-    
 </input>
