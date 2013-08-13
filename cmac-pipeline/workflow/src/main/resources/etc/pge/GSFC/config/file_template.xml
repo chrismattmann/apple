@@ -37,9 +37,9 @@
     <field name="processing_level">$processing_level$</field>
     
     <!-- File access fields -->
-    <field name="url">http://[DATA_NODE]/thredds/fileServer/$filepath$|application/netcdf|HTTPServer</field>
-    <field name="url">http://[DATA_NODE]/thredds/dodsc/$filepath$|application/opendap-html|OPENDAP</field>
-    <field name="xlink">http://[DATA_NODE]/thredds/fileServer/$filepath$|Technical Note|summary</field>
+    <field name="url">http://[DATA_NODE]/thredds/fileServer/$FileLocation$/$Filename$|application/netcdf|HTTPServer</field>
+    <field name="url">http://[DATA_NODE]/thredds/dodsC/$FileLocation$/$Filename$.html|application/opendap-html|OPENDAP</field>
+    <!-- <field name="xlink">http://[DATA_NODE]/thredds/fileServer/$filepath$|Technical Note|summary</field> -->
 
     <!-- other File fields -->
     <field name="size">$FileSize$</field>
