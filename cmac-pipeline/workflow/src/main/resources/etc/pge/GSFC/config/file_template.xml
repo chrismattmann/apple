@@ -12,8 +12,6 @@
     <field name="type">File</field>
     <field name="data_node">$data_node$</field>
     <field name="index_node">[INDEX_NODE]</field>
-     <field name="title">$title$</field>
-
     <field name="title">$title$</field>
     <field name="description">$description$</field>
 
@@ -26,16 +24,13 @@
     <field name="experiment">$experiment_id$</field>
     <field name="experiment_family">All</field>
     <field name="time_frequency">$frequency$</field>
-    <field name="product">observations</field>
+    <field name="product">$product$</field>
     <field name="realm">$realm$</field>
     <field name="variable">$variable$</field>
     <field name="variable_long_name">$variable_long_name$</field>
-    <field name="cmor_table">$cmor_table$</field>
+    <field name="cmor_table">$table_id$</field>
     <field name="cf_standard_name">$cf_standard_name$</field>
-    <field name="variable_units">$variable_units$</field>
     <field name="mip_specs">$mip_specs$</field>
-    <field name="product">$product$</field>
-    <field name="table_id">$table_id$</field>
 
     <!-- other Obs4MIPs fields -->
     <field name="source">$source$</field>
