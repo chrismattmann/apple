@@ -17,19 +17,16 @@
 package gov.nasa.jpl.cmac.extractors;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Logger;
 
 import org.apache.oodt.cas.metadata.Metadata;
 import org.apache.oodt.cas.pge.writers.PcsMetFileWriter;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.sax.BodyContentHandler;
-import org.xml.sax.ContentHandler;
+import org.springframework.util.StringUtils;
 
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 /**
  * PCS metadata extractor that parses the global attributes of a NetCDF file.
@@ -57,6 +54,19 @@ public class NetcdfMetadataExtractor extends PcsMetFileWriter {
           // parse global attributes, add to metadata
           for (Attribute att : ncfile.getGlobalAttributes()) {
               met.addMetadata(att.getName(), att.getStringValue());
+          }
+          
+          // parse variable
+          for (Variable variable : ncfile.getVariables()) {
+              // exclude coordinate variables
+              String name = variable.getName();
+              if (!variable.isCoordinateVariable() && name.indexOf("_bnds")<0) {
+                  met.addMetadata("variable", name);
+                  Attribute longNameAtt = variable.findAttribute("long_name");
+                  if (longNameAtt!=null) met.addMetadata("variable_long_name", longNameAtt.getStringValue());
+                  Attribute standardNameAtt = variable.findAttribute("standard_name");
+                  if (standardNameAtt!=null) met.addMetadata("cf_standard_name", standardNameAtt.getStringValue());
+              }
           }
           
         } catch (IOException ioe) {
