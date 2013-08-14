@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <cas:producttypes xmlns:cas="http://oodt.jpl.nasa.gov/1.0/cas">
-  <type id="urn:oodt:GenericFile" name="GenericFile">
+  <type id="urn:oodt:NetcdfFile" name="NetcdfFile">
     <repository path="file://[OODT_HOME]/data/archive"/>
     <versioner class="org.apache.oodt.cas.filemgr.versioning.BasicVersioner"/>
     <!--
