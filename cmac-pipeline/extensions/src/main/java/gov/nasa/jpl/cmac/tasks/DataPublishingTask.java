@@ -184,7 +184,8 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         fileMetadata.addMetadata("dataset_id", datasetId);
         fileMetadata.addMetadata("master_id", fileId);
         fileMetadata.addMetadata("instance_id", fileId);
-        fileMetadata.addMetadata("title", cp.getProduct().getProductName());
+        if (!fileMetadata.containsKey("title"))
+            fileMetadata.addMetadata("title", cp.getProduct().getProductName());
         fileMetadata.addMetadata("description", cp.getProduct().getProductName());
         // add timestamp (since CAS.ProductReceivedTime is not exposed)
         fileMetadata.addMetadata("timestamp", Constants.SOLR_DATE_TIME_FORMATTER.format(new Date()));
