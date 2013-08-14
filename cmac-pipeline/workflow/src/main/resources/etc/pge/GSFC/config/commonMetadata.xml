@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <input>
     <group name="CommonMetadata">
-        <scalar name="ProductType">GenericFile</scalar>
+        <scalar name="ProductType">NetcdfFile</scalar>
         <scalar name="DataVersion">1</scalar>
         <scalar name="ProductStatus">processed</scalar>
     </group>
