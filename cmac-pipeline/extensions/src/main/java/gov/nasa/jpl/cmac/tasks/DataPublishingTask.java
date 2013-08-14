@@ -187,8 +187,6 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         if (!fileMetadata.containsKey("title"))
             fileMetadata.addMetadata("title", cp.getProduct().getProductName());
         fileMetadata.addMetadata("description", cp.getProduct().getProductName());
-        // add timestamp (since CAS.ProductReceivedTime is not exposed)
-        fileMetadata.addMetadata("timestamp", Constants.SOLR_DATE_TIME_FORMATTER.format(new Date()));
                 
         return fileMetadata;
 
@@ -216,6 +214,7 @@ public class DataPublishingTask implements WorkflowTaskInstance {
         datasetMetadata.replaceMetadata("title", dataset.getTitle());
         datasetMetadata.replaceMetadata("description", dataset.getDescription());
         // add timestamp (since CAS.ProductReceivedTime is not exposed)
+        // use current date for dataset last update
         datasetMetadata.replaceMetadata("timestamp", Constants.SOLR_DATE_TIME_FORMATTER.format(new Date()));
         
         // FIXME: add number of files, number of aggregations to dataset metadata
