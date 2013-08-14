@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 
 import org.apache.oodt.cas.metadata.Metadata;
 import org.apache.oodt.cas.pge.writers.PcsMetFileWriter;
-import org.springframework.util.StringUtils;
 
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
