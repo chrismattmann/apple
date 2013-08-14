@@ -16,6 +16,7 @@
                 <files regExp=".*\.nc" metFileWriterClass="gov.nasa.jpl.cmac.extractors.XmlConfigMetadataExtractor"  
                        args="[PGE_ROOT]/config/commonMetadata.xml"/>
                 <files regExp=".*\.nc" metFileWriterClass="gov.nasa.jpl.cmac.extractors.NetcdfMetadataExtractor"/>
+                <files regExp=".*\.nc" metFileWriterClass="gov.nasa.jpl.cmac.extractors.ChecksumMetadataExtractor"/>
             </dir>
         </output>
 
