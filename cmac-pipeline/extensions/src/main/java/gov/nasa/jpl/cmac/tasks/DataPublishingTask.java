@@ -158,7 +158,10 @@ public class DataPublishingTask implements WorkflowTaskInstance {
 
                     // generate dataset record from template, publish
                     this.publishRecord(datasetDocumentTemplate, datasetMetadata, config, new File(recordsDir, dataset.getId()+".xml"));                    
-                                  
+                    
+                    // update file product status in FM catalog
+                    SolrTool.update(solrUrl, prodId, Constants.PRODUCT_STATUS, Constants.STATUS_PUBLISHED);
+                    
                 } // loop over products
                 
             } // productIds != null
