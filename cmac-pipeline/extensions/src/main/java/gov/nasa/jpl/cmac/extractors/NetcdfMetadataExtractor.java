@@ -52,7 +52,9 @@ public class NetcdfMetadataExtractor extends PcsMetFileWriter {
           
           // parse global attributes, add to metadata
           for (Attribute att : ncfile.getGlobalAttributes()) {
-              met.addMetadata(att.getName(), att.getStringValue());
+              if (att.getStringValue()!=null) {
+                  met.addMetadata(att.getName(), att.getStringValue());
+              }
           }
           
           // parse variable
