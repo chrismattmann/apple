@@ -9,8 +9,8 @@ import datetime
 import uuid
 
 
-#VARIABLES = ["uwnd","vwnd","wspd","upstr","vpstr","nobs"]
-VARIABLES = ["uwnd"]
+VARIABLES = ["uwnd","vwnd","wspd","upstr","vpstr","nobs"]
+#VARIABLES = ["uwnd"]
 
 # file containing common (in [default] section) and variable-specific (in [variable] section) global attributes
 CONFIG_FILE = "./obs4MIPs_ccmp.cfg"
@@ -136,10 +136,9 @@ def main():
                     command = command + " -h -a '%s',global,c,c,'%s' %s" % (key, value, sumFile)
                     execute(command)
 
-        # write out this year
-        with open(productsFile, "a") as f:
-            f.write("%s\n" % year)
-
+            # write out this year
+            with open(productsFile, "a") as f:
+                f.write("%s\n" % year)
 
 def execute(command):
     '''
