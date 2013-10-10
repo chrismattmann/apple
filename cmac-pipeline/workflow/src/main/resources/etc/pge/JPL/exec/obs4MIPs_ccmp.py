@@ -12,8 +12,7 @@ from collections import OrderedDict
 # dictionary that maps the original variable name to the CMIP5 controlled vocabulary name
 # uwnd -> uas, vwnd -> vas, wspd -> sfcWind
 # NOTE: do NOT include variables "upstr", "vpstr"
-#VARIABLES = { "uwnd":"uas", "vwnd":"vas", "wspd":"sfcWind", "nobs":"nobs" }
-VARIABLES = { "uwnd":"uas" }
+VARIABLES = { "uwnd":"uas", "vwnd":"vas", "wspd":"sfcWind", "nobs":"nobs" }
 variables = OrderedDict(sorted(VARIABLES.items(), key=lambda t: t[0]))
 
 # global attributes to be removed
@@ -45,6 +44,7 @@ def main():
         sys.exit(-1)
         
     config = ConfigParser.RawConfigParser()
+    config.optionxform = str # make keys case-sensitive
     try:
         config.read(configFile)
     except Exception as e:
@@ -134,23 +134,29 @@ def main():
                 for file in monthly_files[var]:
                     os.remove(file)
                     
-                # rename variable
+                # rename variable (or simply remame file)
                 yyyymmdd = datetime.date.today().strftime("%Y%m%D")
                 newSumFile = os.path.join(outSubDir,"%s_ccmp_l35_v20131003_%s01_%s12.nc" % (newvar, year, year))
-                command = os.path.join(NCOPATH,"ncrename")
-                command = command + " -h --overwrite -v %s,%s %s %s" % (var, newvar, sumFile, newSumFile)
-                execute(command)
-                
-                # cleanup
-                os.remove(sumFile)
+                if var != newvar:
+                    command = os.path.join(NCOPATH,"ncrename")
+                    command = command + " -h --overwrite -v %s,%s %s %s" % (var, newvar, sumFile, newSumFile)
+                    execute(command)
+                    # cleanup
+                    os.remove(sumFile)
+                    
+                else: 
+                    os.rename(sumFile, newSumFile)
                 
                 # remove all old global attributes
                 command = os.path.join(NCOPATH, "ncatted")
                 command = command + " -h -a ,global,d,, %s" % newSumFile
                 execute(command)
                     
-                # add new global attributes from [default] and [variable] sections
-                for key, value in (dict(config.items('default') + config.items(var))).items():
+                # add new global and variable attributes from [default] and [variable] sections
+                # examples:
+                # mip_specs,global=CMIP5
+                # calendar,time=standard
+                for key, value in (dict(config.items('default') + config.items(newvar))).items():
                     
                     # special attribute processing
                     if key=='title':
@@ -161,7 +167,9 @@ def main():
                         value = replace(value, '$UUID', uuid.uuid4().__str__()) # random UUID
                     
                     command = os.path.join(NCOPATH,"ncatted")
-                    command = command + " -h -a '%s',global,c,c,'%s' %s" % (key, value, newSumFile)
+                    # o=overwrite existing
+                    # c=character attribute type
+                    command = command + " -h -a '%s',o,c,'%s' %s" % (key, value, newSumFile)
                     execute(command)
 
             # write out this year
