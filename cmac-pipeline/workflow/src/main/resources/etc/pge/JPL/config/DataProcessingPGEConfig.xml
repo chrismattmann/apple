@@ -5,7 +5,7 @@
         <exe dir="[JobDir]" shell="/bin/bash">
         
           <!--  location of NCO operators -->
-          <cmd>export NCOPATH=/opt/local/bin</cmd>
+          <cmd>export NCOPATH=/usr/bin</cmd>
           
           <!-- top-level directory for input data -->
           <cmd>export INPUT_DIRECTORY=/usr/local/pge/JPL/input</cmd>
