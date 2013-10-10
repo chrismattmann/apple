@@ -159,11 +159,11 @@ def main():
                 for key, value in (dict(config.items('default') + config.items(newvar))).items():
                     
                     # special attribute processing
-                    if key=='title':
+                    if key=='title,global':
                         value = replace(value, '$YEAR', year)
-                    elif key=='creation_date':
-                        value = replace(value, '$CREATION_DATE', datetime.datetime.now().isoformat())
-                    elif key=='tracking_id':
+                    elif key=='creation_date,global':
+                        value = replace(value, '$CREATION_DATE', datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"))
+                    elif key=='tracking_id,global':
                         value = replace(value, '$UUID', uuid.uuid4().__str__()) # random UUID
                     
                     command = os.path.join(NCOPATH,"ncatted")
