@@ -54,7 +54,7 @@ CLASSPATH=
 if [ -r "$OODT_BASE"/bin/setenv.sh ]; then
   . "$OODT_BASE"/bin/setenv.sh
 elif [ -r "$OODT_HOME"/bin/setenv.sh ]; then
-  . "$OODT_HOME"/bin/settenv.sh
+  . "$OODT_HOME"/bin/setenv.sh
 fi
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
