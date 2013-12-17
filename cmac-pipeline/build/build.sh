@@ -11,7 +11,7 @@
 # 0. Environment
 CWD=$(pwd)
 SRC=`dirname $CWD`
-VERSION=0.1.0-beta
+VERSION=0.2.0-beta
 
 # 1. Install the ESG-Search Jar
 mvn install:install-file -DgroupId=esgf.org -DartifactId=esg-search -Dversion=3.7.7 -Dpackaging=jar -Dfile=$SRC/libs/esg-search-3.7.7.jar
