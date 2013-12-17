@@ -4,7 +4,7 @@
 #
 
 # OODT workflow manager endpoint
-export WORKFLOW_URL=http://localhost:9200
+export WORKFLOW_URL=http://localhost:9001
 
 # Root of CMAC software installation
 export CMAC_HOME=${OODT_HOME}
