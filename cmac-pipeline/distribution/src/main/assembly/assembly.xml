@@ -28,6 +28,13 @@
 	  </includes>
     </fileSet>
     <fileSet>
+          <directory>${basedir}/src/main/resources/tomcat/conf</directory>
+          <outputDirectory>tomcat/conf</outputDirectory>
+          <includes>
+                  <include>**/*</include>
+          </includes>
+    </fileSet>
+    <fileSet>
 	  <directory>${basedir}/src/main/resources/solr/solr-home</directory>
 	  <outputDirectory>solr-home</outputDirectory>
 	  <includes>
