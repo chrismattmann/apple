@@ -7,7 +7,7 @@
   <name>Data Management System</name>
   <packaging>pom</packaging>
   <description>Data Management System Powered by Apache OODT delivered via RADiX</description>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
