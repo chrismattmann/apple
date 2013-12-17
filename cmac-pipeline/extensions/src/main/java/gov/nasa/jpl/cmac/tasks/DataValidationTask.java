@@ -52,12 +52,6 @@ public class DataValidationTask implements WorkflowTaskInstance {
                 // 2) execute validation
                 String command = validationCommand + " " + filePath;
                 LOG.info("Executing command: "+command);
-                SystemCommand syscom = new SystemCommand(command);
-                // remove comments to run the command and inspect the output
-                //List<String> output = syscom.run();
-                //for (String s : output) {
-                //    LOG.info(s);
-                //}
                                 
                 // 3) update product status in FM catalog
                 SolrTool.update(solrUrl, prodId, Constants.PRODUCT_STATUS, Constants.STATUS_VALIDATED);

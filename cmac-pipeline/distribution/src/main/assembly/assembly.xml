@@ -14,6 +14,41 @@
       <fileMode>775</fileMode>
     </fileSet>
     <fileSet>
+      <directory>${basedir}/src/main/resources/thredds</directory>
+	  <outputDirectory>tomcat/webapps</outputDirectory>
+	  <includes>
+		  <include>**.war</include>
+	  </includes>
+    </fileSet>
+    <fileSet>
+	  <directory>${basedir}/src/main/resources/thredds/catalog</directory>
+	  <outputDirectory>tomcat/content/thredds</outputDirectory>
+	  <includes>
+		  <include>**/*</include>
+	  </includes>
+    </fileSet>
+    <fileSet>
+          <directory>${basedir}/src/main/resources/tomcat/conf</directory>
+          <outputDirectory>tomcat/conf</outputDirectory>
+          <includes>
+                  <include>**/*</include>
+          </includes>
+    </fileSet>
+    <fileSet>
+	  <directory>${basedir}/src/main/resources/solr/solr-home</directory>
+	  <outputDirectory>solr-home</outputDirectory>
+	  <includes>
+		  <include>**/*</include>
+	  </includes>
+    </fileSet>
+    <fileSet>
+	  <directory>${basedir}/src/main/resources/solr</directory>
+	  <outputDirectory>tomcat/webapps</outputDirectory>
+	  <includes>
+		  <include>**.war</include>
+	  </includes>
+    </fileSet>
+    <fileSet>
       <directory>target</directory>
       <outputDirectory>logs</outputDirectory>
       <excludes>
