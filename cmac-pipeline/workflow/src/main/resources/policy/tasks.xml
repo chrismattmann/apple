@@ -77,7 +77,7 @@
       <property name="templateDir" value="[PGE_ROOT]/config/" envReplace="true"/>
       <property name="recordsDir" value="[PGE_ROOT]/output/records/" envReplace="true"/>
       <property name="tdsPath" value="cmac" envReplace="true"/>
-      <property name="tdsLocation" value="/usr/local/cmac/data/archive" envReplace="true"/>
+      <property name="tdsLocation" value="[DATA_DIR]" envReplace="true"/>
     </configuration>
    
     <requiredMetFields/>
