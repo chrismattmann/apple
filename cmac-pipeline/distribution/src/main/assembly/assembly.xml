@@ -35,6 +35,13 @@
           </includes>
     </fileSet>
     <fileSet>
+          <directory>${basedir}/src/main/resources/esgf</directory>
+          <outputDirectory>workflow/lib</outputDirectory>
+          <includes>
+                  <include>**/*</include>
+          </includes>
+    </fileSet>
+    <fileSet>
 	  <directory>${basedir}/src/main/resources/solr/solr-home</directory>
 	  <outputDirectory>solr-home</outputDirectory>
 	  <includes>
