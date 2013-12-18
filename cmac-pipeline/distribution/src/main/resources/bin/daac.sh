@@ -13,6 +13,9 @@
 # should match what is configured in THREDDS <datascan> directive
 #export DATA_DIR=/usr/local/cmac/data/archive
 
+# location of Java installation
+#export JAVA_HOME=/usr/java/default
+
 # Choose an identifier for the DAAC (e.g. GSFC)
 #export DAAC_ID=GSFC
 
