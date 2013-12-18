@@ -2,6 +2,17 @@
 #
 # CMAC environment configuration
 
+# installation directory of CMAC package
+# should contain tomcat, filemgr, worklow etc.
+#export CMAC_HOME=/usr/local/cmac
+
+# installation directory for DAAC specific data processing algorithm and configuration
+#export PGE_ROOT=/usr/local/pge
+
+# root directory where data products will be archived
+# should match what is configured in THREDDS <datascan> directive
+#export DATA_DIR=/usr/local/cmac/data/archive
+
 # Choose an identifier for the DAAC (e.g. GSFC)
 #export DAAC_ID=GSFC
 
