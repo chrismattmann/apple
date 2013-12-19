@@ -8,10 +8,10 @@
           <cmd>export NCOPATH=/usr/bin</cmd>
           
           <!-- top-level directory for input data -->
-          <cmd>export INPUT_DIRECTORY=/usr/local/pge/JPL/input</cmd>
+          <cmd>export INPUT_DIRECTORY=[PGE_ROOT]/input</cmd>
           
           <!-- top-level directory for output data -->
-          <cmd>export OUTPUT_DIRECTORY=/usr/local/pge/JPL/output</cmd>
+          <cmd>export OUTPUT_DIRECTORY=[PGE_ROOT]/output</cmd>
           
           <!-- same sub-directory for input/output data -->
 		  <cmd>export SUBDIRECTORY=ccmp/L3.5a/monthly/flk</cmd>
