@@ -24,6 +24,7 @@ mvn install:install-file \
 # 2. Build the CMAC-Extensions component
 cd $SRC/extensions
 mvn package install
+
 # 3. Build the full CMAC distribution
 cd $SRC
 mvn package install
@@ -31,9 +32,9 @@ mvn package install
 # 4. Package PGE bin scripts into final distribution.
 # TODO: For a future release, this step could be folded into the
 #       maven build step above.
-BUILD_DIR=$SRC/distribution/target/cmac-pipeline-$DAAC_ID-$VERSION
+BUILD_DIR=$SRC/distribution/target/cmac-pipeline-$VERSION
 mkdir $BUILD_DIR && cd $BUILD_DIR
 cp -r $SRC/distribution/target/cmac-pipeline-*.tar.gz .
-cp -r $SRC/workflow/src/main/resources/etc/pge/$DAAC_ID .
+cp -r $SRC/workflow/src/main/resources/etc/pge/* .
 cd ../
-tar czvf cmac-pipeline-$DAAC_ID-$VERSION.tar.gz cmac-pipeline-$DAAC_ID-$VERSION
+tar czvf cmac-pipeline-$VERSION.tar.gz cmac-pipeline-$VERSION
