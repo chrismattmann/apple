@@ -1,0 +1,54 @@
+
+.header .sponsor {
+    padding-bottom:20px;
+}
+
+.header .sponsor img {
+    float:left;
+    width:70px;
+}
+
+.header .sponsor h3 {
+    font-size: 100%;
+    letter-spacing:0.05em;
+    margin-bottom:0px;
+    padding-bottom:0px;
+}
+
+.header .sponsor h4 {
+    font-size:90%;
+    margin:0px;
+    padding:0px;
+    font-weight:normal;
+}
+
+.header .sponsor a,
+  .header .sponsor a:visited,
+  .header .sponsor a:hover {
+    color:#000;
+    text-decoration:none;
+}
+
+.footer {
+    font-size:90%;
+    margin-top:30px;
+}
+
+.centered {
+    text-align:center;
+}
+
+.right-aligned {
+    text-align:right;
+}
+
+ul.history {
+    font-size:90%;
+}
+ul.history li {
+    border-bottom:solid 1px #eee;
+    padding: 5px 0px;
+}
+.documentation {
+    font-size:80%;
+}
