@@ -68,8 +68,8 @@ TDS: $CMAC_HOME/tomcat/content/thredds/logs/*.log
 ```
 
 # To stop all the services:
-1. cd $CMAC_HOME/bin
-2. ./oodt stop
+1. `cd $CMAC_HOME/bin`
+2. `./oodt stop`
 
 # Publishing data
 To fully publish data to an ESGF Index Node, you need to obtain a short-lifetime certificate for a user that is authorized to publish data into a specific collection. For now, contact Luca (luca.cinquini@jpl.nasa.gov) to obtain a temporary certificate with his identity, that is authorized to publish Obs4MIPs data to the Index node "test-datanode.jpl.nasa.gov". Save the certificate in the location ~/.esg/credentials.pem
