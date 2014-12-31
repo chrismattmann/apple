@@ -58,10 +58,10 @@ Tomcat/TDS: try the following URL: http://localhost:8080/thredds/catalog.html
 Tomcat/OPSUI: try the following URL: http://localhost:8080/opsui/
 File Manager: check out the standard port: netstat -na | grep -i 9000
 Workflow Manager: check out the standard port: port: netstat -na | grep -i 9001
-``
+```
 
 The following log files may be useful to debug any problems:
-``
+```
 OODT: $CMAC_HOME/logs/oodt.out
 Tomcat: $CMAC_HOME/tomcat/logs/catalina.out
 TDS: $CMAC_HOME/tomcat/content/thredds/logs/*.log
