@@ -245,6 +245,7 @@ sub writeNC {
     my $dataNc = $dataFile . ".nc?TempPrsLvls,LandSeaMask,SurfPres_A,SurfPres_D,Temperature_A_ct,Temperature_A,Temperature_D,Temperature_D_ct,Latitude,Longitude";
     my $fetchData = "fetch_ncks.nc";
     push @delete, $fetchData;
+    print "curl -s $dataNc > $fetchData\n";
     `curl -s $dataNc > $fetchData`;
     if($?) {
         print "Error fetching data $dataFile ($?)\n";
@@ -253,6 +254,7 @@ sub writeNC {
     # NCO process data
     my $procData = "proc_ncap2.nc";
     push @delete, $procData;
+    print "ncap2 -O -v -S airs.nco $fetchData $procData\n";
     `ncap2 -O -v -S airs.nco $fetchData $procData`;
     if($?) {
         print "Error processing data $fetchData ($?)\n";
@@ -261,7 +263,8 @@ sub writeNC {
     # NCO reverse latitudes
     my $latRevData = "lat_rev_ncpdq.nc";
     push @delete, $latRevData;
-    `ncpdq -O -a plev,-lat,lon $procData $latRevData`;
+    print "ncpdq -O -a plev,-lat,-lon $procData $latRevData\n";
+    `ncpdq -O -a plev,-lat,-lon $procData $latRevData`;
     if($?) {
         print "Error reversing latitudes in $procData ($?)\n";
         exit(-1);
@@ -269,6 +272,7 @@ sub writeNC {
     # NCO remove relict dimensions/variables
     my $fixDimVarData = "fix_dim_var_ncks.nc";
     push @delete, $fixDimVarData;
+    print "ncks -O -v ta $latRevData $fixDimVarData\n";
     `ncks -O -v ta $latRevData $fixDimVarData`;
     if($?) {
         print "Error removing dimensions and variables in $latRevData ($?)\n";
@@ -277,6 +281,7 @@ sub writeNC {
     # NCO add lat/lon bounds
     my $coordBoundsData = "add_bnds_ncap2.nc";
     push @delete, $coordBoundsData;
+    print "ncap2 -O -S geo_bnds.nco $fixDimVarData $coordBoundsData\n";
     `ncap2 -O -S geo_bnds.nco $fixDimVarData $coordBoundsData`;
     if($?) {
         print "Error adding bounds for lat/lon in $fixDimVarData ($?)\n";
@@ -293,6 +298,7 @@ sub writeNC {
     # NCO add fixed-value attributes for coordinates
     my $fixCoordAttrsData = "coord_attrs_ncap2.nc";
     push @delete, $fixCoordAttrsData;
+    print "ncap2 -O -S coord_attrs.nco $timeData $fixCoordAttrsData\n";
     `ncap2 -O -S coord_attrs.nco $timeData $fixCoordAttrsData`;
     if($?) {
         print "Error adding attributes for coordinates in $timeData ($?)\n";
@@ -306,6 +312,7 @@ sub writeNC {
 #    my $uuid = $ug->create_from_name_str(<namespace>,$dataFile);
     my $date = `date -u +'%Y-%m-%dT%TZ'`;
     chomp($date);
+    print "ncatted -O -h -a ,global,d,, -a tracking_id,global,c,c,$uuid -a creation_date,global,c,c,$date $fixCoordAttrsData $fixGaData\n";
     `ncatted -O -h -a ,global,d,, -a tracking_id,global,c,c,$uuid -a creation_date,global,c,c,$date $fixCoordAttrsData $fixGaData`;
     if($?) {
         print "Error fixing global attributes in $fixCoordAttrsData ($?)\n";
@@ -314,12 +321,14 @@ sub writeNC {
     # add fixed CMOR global attributes for ESG
     my $cmorGaData = "global_attrs_ncap2.nc";
     push @delete, $cmorGaData;
+    print "ncap2 -O -h -S global_attrs.nco $fixGaData $cmorGaData\n";
     `ncap2 -O -h -S global_attrs.nco $fixGaData $cmorGaData`;
     if($?) {
         print "Error adding CMOR global attributes in $fixGaData ($?)\n";
         exit(-1);
     }
     # make time a record dimension
+    print "ncks -O -h --mk_rec_dmn time $cmorGaData $outFile\n";
     `ncks -O -h --mk_rec_dmn time $cmorGaData $outFile`;
     if($?) {
         print "Error making record dimension in $cmorGaData ($?)\n";
@@ -327,6 +336,7 @@ sub writeNC {
     }
     # remove intermediate processed data
     foreach my $deleteFile (@delete) {
+	print "rm -rf $deleteFile\n";
         `rm -rf $deleteFile`;
         if($?) {
             print "Failed to remove $deleteFile ($?)\n";
@@ -355,6 +365,7 @@ my $str = "defdim(\"time\",1);time[\$time]=0.; time_bnds[\$time,\$bnds]=0.; time
 # Redefine variable 'ta'
 $str .= " *fv=1.0e+20f;ta[\$time,\$plev,\$lat,\$lon]=ta;ta\@standard_name=\"air_temperature\";ta\@long_name=\"Air Temperature\";ta\@units=\"K\";ta\@missing_value=fv;ta\@cell_methods=\"time: mean\";ta\@cell_measures=\"area: areacella\";ta.change_miss(fv)";
 my $cmd = "ncap2 -O -s '$str' $infile $outfile";
+print $cmd."\n";
 my $rc = system($cmd);
 return 1 if ($rc != 0);
 return 0;
